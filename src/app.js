@@ -3,6 +3,7 @@ const dbConnect = require('./db/dbConnect');
 const morgan = require('morgan');
 const cors = require('cors');
 const taskRoute = require('./routes/tasks.router');
+const notFound = require('./middleware/notFound.middleware');
 
 require('dotenv').config();
 const app = express();
@@ -12,6 +13,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/v1/tasks', taskRoute);
+
+app.use(notFound);
 
 const startServer = async () => {
   try {

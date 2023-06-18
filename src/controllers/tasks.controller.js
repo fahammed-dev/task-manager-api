@@ -56,8 +56,9 @@ const updateTask = async (req, res) => {
       return res.status(404).json({ msg: 'There is no task with this id' });
     }
     const updatedTask = await Task.findByIdAndUpdate({ _id: id }, req.body, {
-      new: true, // note:
-      runValidators: true, // note:
+      new: true, //note:get the updated data
+      runValidators: true, //note: revalidate the data
+      overwrite: true, //note:use for put method
     });
     return res.status(200).json(updatedTask);
   } catch (error) {
