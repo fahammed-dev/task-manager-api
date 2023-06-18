@@ -1,4 +1,5 @@
 const express = require('express');
+const dbConnect = require('./db/dbConnect');
 const morgan = require('morgan');
 const cors = require('cors');
 const taskRoute = require('./routes/tasks.router');
@@ -12,6 +13,15 @@ app.use(express.json());
 
 app.use('/api/v1/tasks', taskRoute);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is listening on port ${process.env.PORT}`);
-});
+const startServer = async () => {
+  try {
+    dbConnect(process.env.MONGO_URI);
+    app.listen(process.env.PORT, () => {
+      console.log(`Server is listening on port ${process.env.PORT}`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+startServer();
